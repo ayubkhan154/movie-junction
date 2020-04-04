@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="npm serve" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="serve" />
+    </scripts>
+    <node-interpreter value="project" />
+    <envs>
+      <env name="OMDB_API_KEY" value="e335d66d" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>
