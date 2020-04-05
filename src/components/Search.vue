@@ -1,11 +1,12 @@
 <template>
-  <form>
-    <input type="search" list="listData" name="searchBox" id="searchBox" v-on:input="getData($event.target.value)" placeholder="Type a Movie" style="padding: 1em; border: 1px solid cornflowerblue; border-radius: 0; border-top-left-radius: 4px; border-bottom-left-radius: 4px;">
-    <datalist id="listData">
-      <option v-for="item in listItems" :key="item.imdbID" v-bind:value="item.Title" />
-    </datalist>
-    <input type="submit" value="Submit" style="background-color: cornflowerblue; color: white; margin: 0; padding: 1em; border: 1px solid cornflowerblue;border-radius: 0; border-top-right-radius: 4px; border-bottom-right-radius: 4px; ">
-  </form>
+    <form>
+        <input type="search" list="listData" name="searchBox" id="searchBox" v-on:input="getData($event.target.value)"
+               placeholder="Type a Movie">
+        <datalist id="listData">
+            <option v-for="item in listItems" :key="item.imdbID" v-bind:value="item.Title"/>
+        </datalist>
+        <input type="submit" value="❯">
+    </form>
 </template>
 
 <script>
@@ -43,18 +44,40 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+    form {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    form input {
+        border-radius: 0;
+        border: 1px solid cornflowerblue;
+        padding: 0.5em 1em;
+        line-height: 1.5;
+        font-size: x-large;
+    }
+
+    form input:active, form input:focus {
+        outline: none;
+    }
+
+    form input[type=search] {
+        border-right: 0;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    form input[type=submit]:hover {
+        cursor: pointer;
+    }
+
+    form input[type=submit] {
+        border-left: 0;
+        background-color: cornflowerblue;
+        color: white;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
 </style>
