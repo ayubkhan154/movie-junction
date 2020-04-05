@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <p>Start your work</p>
-        <Search></Search>
+        <h1>Movie Junction</h1>
+        <Search />
     </div>
 </template>
 
