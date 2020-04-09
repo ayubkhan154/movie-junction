@@ -1,6 +1,6 @@
 <template>
     <form>
-        <input type="search" list="listData" name="searchBox" id="searchBox" v-on:input="getData($event.target.value)"
+        <input @input="getData($event.target.value)" id="searchBox" list="listData" name="searchBox" type="search"
                placeholder="Type a Movie">
         <datalist id="listData">
             <option v-for="item in listItems" :key="item.imdbID" v-bind:value="item.Title"/>
@@ -10,36 +10,35 @@
 </template>
 
 <script>
-import axios from "axios";
+    import axios from "axios";
 
-export default {
-  name: 'Search',
-  data: () => {
-    return {
-      apiKey: 'e335d66d',
-      responseData: Object,
-      listItems: Array
+    export default {
+        name: 'Search',
+        data: () => {
+            return {
+                apiKey: 'e335d66d',
+                responseData: Object,
+                listItems: Array
+            }
+        },
+        methods: {
+            getData: function (searchText) {
+                if (searchText.length > 4) {
+                    console.log(searchText);
+                    axios.get(`http://www.omdbapi.com/?apikey=${this.apiKey}&s=${searchText}&type=Movie`)
+                        .then(function (response) {
+                            this.responseData = response
+                        }.bind(this))
+                        .then(function () {
+                            this.listItems = this.responseData.data.Search;
+                            this.$emit('get-posters', this.listItems);
+                        }.bind(this));
+                } else {
+                    this.listItems = [];
+                }
+            }
+        }
     }
-  },
-  methods: {
-    getData: function (searchText) {
-
-      if (searchText.length > 4) {
-        console.log(searchText);
-        axios.get(`http://www.omdbapi.com/?apikey=${this.apiKey}&s=${searchText}`)
-                .then(function (response) {
-                  this.responseData = response
-                }.bind(this))
-                .then(function () {
-                  this.listItems = this.responseData.data.Search;
-                }.bind(this));
-      }else{
-        this.listItems = [];
-      }
-    }
-  }
-
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
