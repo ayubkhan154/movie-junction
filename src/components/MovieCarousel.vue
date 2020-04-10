@@ -1,17 +1,40 @@
 <template>
     <main>
-        <img :alt="poster.Title" :key="poster.imdbID"
-             :src="(poster.Poster !== 'N/A') ? poster.Poster : 'https://popcornusa.s3.amazonaws.com/placeholder-movieimage.png'"
-             v-for="poster in posters">
+        <MoviePortrait :key="poster.imdbID"
+                       :poster="(poster.Poster !== 'N/A')
+                           ? poster.Poster
+                           : 'https://popcornusa.s3.amazonaws.com/placeholder-movieimage.png'"
+                       :title="poster.Title"
+                       :year="poster.Year"
+                       v-for="poster in posters"/>
+        <MoviePopup v-if="showModal"/>
     </main>
 </template>
 
 <script>
+    import MoviePortrait from "@/components/MoviePortrait";
+    import MoviePopup from "@/components/MoviePopup";
+
     export default {
         name: "MovieCarousel",
+        components: {
+            MoviePortrait,
+            MoviePopup
+        },
         props: {
             posters: Array,
         },
+        data: () => {
+            return {
+                showModal: false,
+                selectedItem: {}
+            }
+        },
+        methods: {
+            showPopup: () => {
+
+            }
+        }
     }
 </script>
 
@@ -23,18 +46,8 @@
         margin: 1em;
     }
 
-    main img {
+    main div {
         width: 100%;
-        height: auto;
-        border-radius: 4px;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.23);
-        object-fit: contain;
-        transition: all 0.3s;
-    }
-
-    main img:hover {
-        cursor: pointer;
-        transform: translateY(-4px);
-        box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.65);
+        height: 100%;
     }
 </style>
