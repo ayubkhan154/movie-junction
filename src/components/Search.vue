@@ -1,6 +1,6 @@
 <template>
     <form>
-        <input @input="getData($event.target.value)" id="searchBox" list="listData" name="searchBox" type="search"
+        <input @input="debounce(getData,1000)" id="searchBox" list="listData" name="searchBox" type="search"
                placeholder="Type a Movie">
         <datalist id="listData">
             <option v-for="item in listItems" :key="item.imdbID" v-bind:value="item.Title"/>
@@ -22,24 +22,36 @@
             }
         },
         methods: {
-            getData: function (searchText) {
-                if (searchText.length > 4) {
-                    axios.get(`http://www.omdbapi.com/?apikey=${this.apiKey}&s=${searchText}&type=Movie`)
-                        .then(function (response) {
-                            this.responseData = response
-                        }.bind(this))
-                        .then(function () {
-                            // Add reduce to remove duplicate IMDB IDs
-                            this.listItems = this.responseData.data.Search.reduce((arr, curItem) => {
-                                if (!arr.find(elem => elem.imdbID === curItem.imdbID))
-                                    arr.push(curItem);
-                                return arr;
-                            }, []);
-                            this.$emit('get-posters', this.listItems);
-                        }.bind(this));
-                } else {
+            getData: function () {
+                let searchText = document.getElementById("searchBox").value;
+                console.log("asmaan neechey: ", searchText);
+                if (searchText.length === 0)
                     this.listItems = [];
-                }
+                axios.get(`http://www.omdbapi.com/?apikey=${this.apiKey}&s=${searchText}&type=Movie`)
+                    .then(function (response) {
+                        this.responseData = response
+                    }.bind(this))
+                    .then(function () {
+                        console.log("time dekh");
+                        // Add reduce to remove duplicate IMDB IDs
+                        this.listItems = this.responseData.data.Search.reduce((arr, curItem) => {
+                            if (!arr.find(elem => elem.imdbID === curItem.imdbID))
+                                arr.push(curItem);
+                            return arr;
+                        }, []);
+                        this.$emit('get-posters', this.listItems);
+                    }.bind(this));
+            },
+
+            debounce: function (func, delay) {
+                return this.debounceSearch(func, delay);
+            },
+
+            debounceSearch: function (func, delay) {
+                const context = this, args = arguments;
+                clearTimeout(global.timer);
+                global.timer = setTimeout(() => func.apply(context, args), delay);
+                console.log("..done");
             }
         }
     }
