@@ -1,5 +1,5 @@
 <template>
-    <div :style="`background: url('${poster}')`" class="poster">
+    <div :style="`background: url('${poster}')`" @click="$emit('click')" class="poster">
         <img :alt="title" :src="poster">
         <div class="posterOverlay">
             {{title}}<br><br>({{year}})
