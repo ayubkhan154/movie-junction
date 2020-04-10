@@ -24,13 +24,17 @@
         methods: {
             getData: function (searchText) {
                 if (searchText.length > 4) {
-                    console.log(searchText);
                     axios.get(`http://www.omdbapi.com/?apikey=${this.apiKey}&s=${searchText}&type=Movie`)
                         .then(function (response) {
                             this.responseData = response
                         }.bind(this))
                         .then(function () {
-                            this.listItems = this.responseData.data.Search;
+                            // Add reduce to remove duplicate IMDB IDs
+                            this.listItems = this.responseData.data.Search.reduce((arr, curItem) => {
+                                if (!arr.find(elem => elem.imdbID === curItem.imdbID))
+                                    arr.push(curItem);
+                                return arr;
+                            }, []);
                             this.$emit('get-posters', this.listItems);
                         }.bind(this));
                 } else {
