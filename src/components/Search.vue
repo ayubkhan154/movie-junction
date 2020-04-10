@@ -24,7 +24,6 @@
         methods: {
             getData: function () {
                 let searchText = document.getElementById("searchBox").value;
-                console.log("asmaan neechey: ", searchText);
                 if (searchText.length === 0)
                     this.listItems = [];
                 axios.get(`http://www.omdbapi.com/?apikey=${this.apiKey}&s=${searchText}&type=Movie`)
@@ -32,7 +31,6 @@
                         this.responseData = response
                     }.bind(this))
                     .then(function () {
-                        console.log("time dekh");
                         // Add reduce to remove duplicate IMDB IDs
                         this.listItems = this.responseData.data.Search.reduce((arr, curItem) => {
                             if (!arr.find(elem => elem.imdbID === curItem.imdbID))
@@ -51,7 +49,6 @@
                 const context = this, args = arguments;
                 clearTimeout(global.timer);
                 global.timer = setTimeout(() => func.apply(context, args), delay);
-                console.log("..done");
             }
         }
     }
