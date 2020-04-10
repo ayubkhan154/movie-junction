@@ -38,10 +38,12 @@
                             return arr;
                         }, []);
                         this.$emit('get-posters', this.listItems);
+                        this.$emit('hideLoading');
                     }.bind(this));
             },
 
             debounce: function (func, delay) {
+                this.$emit('showLoading');
                 return this.debounceSearch(func, delay);
             },
 
