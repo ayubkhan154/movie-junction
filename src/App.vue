@@ -1,15 +1,15 @@
 <template>
     <div id="app">
         <img alt="Logo" src="logo2.png">
-        <Search @get-posters="getPosters"/>
-        <MovieCarousel :posters="posterData"/>
+        <Search @get-posters="getPosters" @hideLoading="hideLoading" @showLoading="showLoading"/>
+        <object data="spinner.svg" id="spinner" v-if="showSpinner"></object>
+        <MovieCarousel :posters="posterData" v-else/>
     </div>
 </template>
 
 <script>
-    import Search from './components/Search.vue'
-    import MovieCarousel from './components/MovieCarousel'
-
+    import Search from '@/components/Search.vue'
+    import MovieCarousel from '@/components/MovieCarousel'
 
     export default {
         name: 'App',
@@ -20,6 +20,7 @@
         data: () => {
             return {
                 posterData: Array,
+                showSpinner: false
             }
         },
         props: {
@@ -27,7 +28,13 @@
         },
         methods: {
             getPosters: function (posters) {
-                this.posterData = posters;
+                this.posterData = posters
+            },
+            showLoading: function () {
+                this.showSpinner = true
+            },
+            hideLoading: function () {
+                this.showSpinner = false
             }
         }
     }
@@ -41,5 +48,9 @@
         text-align: center;
         color: #2c3e50;
         margin-top: 60px;
+    }
+
+    #spinner {
+        margin-top: 3em;
     }
 </style>
