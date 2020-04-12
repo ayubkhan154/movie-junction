@@ -26,7 +26,7 @@
                 let searchText = document.getElementById("searchBox").value;
                 if (searchText.length === 0)
                     this.listItems = [];
-                axios.get(`http://www.omdbapi.com/?apikey=${this.apiKey}&s=${searchText}&type=Movie`)
+                axios.get(`http://www.omdbapi.com/?apikey=${this.apiKey}&s=${searchText}&type=movie`)
                     .then(function (response) {
                         this.responseData = response
                     }.bind(this))
